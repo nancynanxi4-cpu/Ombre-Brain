@@ -291,6 +291,111 @@ async def auth_change_password(request):
 
 
 # =============================================================
+# REST API — Bucket CRUD
+# 供 Dashboard 调用的桶管理接口，均需登录认证
+# =============================================================
+
+@mcp.custom_route("/api/buckets/{bucket_id}", methods=["GET"])
+async def api_get_bucket(request):
+    from starlette.responses import JSONResponse
+    err = _require_auth(request)
+    if err:
+        return err
+    bucket_id = request.path_params.get("bucket_id", "")
+    if not bucket_id:
+        return JSONResponse({"error": "缺少 bucket_id"}, status_code=400)
+    try:
+        bucket = await bucket_mgr.get(bucket_id)
+        if not bucket:
+            return JSONResponse({"error": "桶不存在"}, status_code=404)
+        return JSONResponse({
+            "id": bucket["id"],
+            "content": bucket["content"],
+            "metadata": bucket["metadata"],
+            "score": decay_engine.calculate_score(bucket["metadata"]),
+        })
+    except Exception as e:
+        return JSONResponse({"error": str(e)}, status_code=500)
+
+
+@mcp.custom_route("/api/buckets/{bucket_id}", methods=["PUT"])
+async def api_update_bucket(request):
+    from starlette.responses import JSONResponse
+    err = _require_auth(request)
+    if err:
+        return err
+    bucket_id = request.path_params.get("bucket_id", "")
+    if not bucket_id:
+        return JSONResponse({"error": "缺少 bucket_id"}, status_code=400)
+    try:
+        body = await request.json()
+    except Exception:
+        return JSONResponse({"error": "Invalid JSON"}, status_code=400)
+
+    # 只处理允许编辑的五个字段，其余忽略
+    kwargs = {}
+    if "name" in body:
+        kwargs["name"] = str(body["name"]).strip()
+    if "importance" in body:
+        v = int(body["importance"])
+        kwargs["importance"] = max(1, min(10, v))
+    if "content" in body:
+        c = str(body["content"]).strip()
+        if not c:
+            return JSONResponse({"error": "content 不能为空"}, status_code=400)
+        kwargs["content"] = c
+    if "pinned" in body:
+        kwargs["pinned"] = bool(body["pinned"])
+    if "tags" in body:
+        raw = body["tags"]
+        if isinstance(raw, list):
+            kwargs["tags"] = [str(t).strip() for t in raw if str(t).strip()]
+        elif isinstance(raw, str):
+            kwargs["tags"] = [t.strip() for t in raw.split(",") if t.strip()]
+        else:
+            return JSONResponse({"error": "tags 格式不对，传列表或逗号分隔字符串"}, status_code=400)
+
+    if not kwargs:
+        return JSONResponse({"error": "没有可更新的字段"}, status_code=400)
+
+    try:
+        bucket = await bucket_mgr.get(bucket_id)
+        if not bucket:
+            return JSONResponse({"error": "桶不存在"}, status_code=404)
+        await bucket_mgr.update(bucket_id, **kwargs)
+        # content变了就重新生成embedding
+        if "content" in kwargs:
+            try:
+                await embedding_engine.generate_and_store(bucket_id, kwargs["content"])
+            except Exception as e:
+                logger.warning(f"Re-embedding after edit failed: {e}")
+        return JSONResponse({"ok": True, "updated": list(kwargs.keys())})
+    except Exception as e:
+        return JSONResponse({"error": str(e)}, status_code=500)
+
+
+@mcp.custom_route("/api/buckets/{bucket_id}", methods=["DELETE"])
+async def api_delete_bucket(request):
+    from starlette.responses import JSONResponse
+    err = _require_auth(request)
+    if err:
+        return err
+    bucket_id = request.path_params.get("bucket_id", "")
+    if not bucket_id:
+        return JSONResponse({"error": "缺少 bucket_id"}, status_code=400)
+    try:
+        bucket = await bucket_mgr.get(bucket_id)
+        if not bucket:
+            return JSONResponse({"error": "桶不存在"}, status_code=404)
+        success = await bucket_mgr.delete(bucket_id)
+        if success:
+            return JSONResponse({"ok": True, "deleted": bucket_id})
+        return JSONResponse({"error": "删除失败"}, status_code=500)
+    except Exception as e:
+        return JSONResponse({"error": str(e)}, status_code=500)
+
+
+# =============================================================
 # /health endpoint: lightweight keepalive
 # 轻量保活接口
 # For Cloudflare Tunnel or reverse proxy to ping, preventing idle timeout
