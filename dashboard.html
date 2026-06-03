@@ -16,10 +16,10 @@
     --text: #3A3530;
     --text-dim: #8A8070;
     --text-light: #B0A590;
-    --accent: #2F4F4F;
-    --accent-light: #3D6363;
-    --accent-glow: rgba(47, 79, 79, 0.12);
-    --positive: #4A7C59;
+    --accent: #E86F4D;
+    --accent-light: #F08A6A;
+    --accent-glow: rgba(232, 111, 77, 0.14);
+    --positive: #E86F4D;
     --negative: #8B4A4A;
     --warning: #9A7B4F;
     --shadow-light: rgba(255, 252, 240, 0.7);
@@ -358,7 +358,7 @@
     font-weight: 500;
     cursor: pointer;
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 6px 6px 12px rgba(40, 65, 65, 0.25), -4px -4px 10px var(--shadow-light), inset 0 1px 0 rgba(255,255,255,0.1);
+    box-shadow: 6px 6px 12px rgba(180, 80, 55, 0.25), -4px -4px 10px var(--shadow-light), inset 0 1px 0 rgba(255,255,255,0.1);
     letter-spacing: 0.4px;
     position: relative;
     overflow: hidden;
@@ -372,7 +372,7 @@
     pointer-events: none;
   }
   .btn-primary:hover {
-    box-shadow: 8px 8px 16px rgba(40, 65, 65, 0.3), -5px -5px 12px var(--shadow-light), inset 0 1px 0 rgba(255,255,255,0.15);
+    box-shadow: 8px 8px 16px rgba(180, 80, 55, 0.3), -5px -5px 12px var(--shadow-light), inset 0 1px 0 rgba(255,255,255,0.15);
     transform: translateY(-2px);
   }
   .btn-primary:active {
@@ -466,7 +466,7 @@
     font-weight: 500;
     cursor: pointer;
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 6px 6px 12px rgba(40, 65, 65, 0.25), -4px -4px 10px var(--shadow-light), inset 0 1px 0 rgba(255,255,255,0.1);
+    box-shadow: 6px 6px 12px rgba(180, 80, 55, 0.25), -4px -4px 10px var(--shadow-light), inset 0 1px 0 rgba(255,255,255,0.1);
     position: relative;
     overflow: hidden;
   }
@@ -479,7 +479,7 @@
     pointer-events: none;
   }
   .breath-controls button:hover {
-    box-shadow: 8px 8px 16px rgba(40, 65, 65, 0.3), -5px -5px 12px var(--shadow-light);
+    box-shadow: 8px 8px 16px rgba(180, 80, 55, 0.3), -5px -5px 12px var(--shadow-light);
     transform: translateY(-2px);
   }
   .breath-controls button:active {
@@ -597,6 +597,74 @@
     .config-row label { width: 100%; }
     .breath-flow { display: none; }
   }
+
+  /* --- valence label in list --- */
+  .bucket-row .v-label { font-size: 10px; color: var(--text-dim); margin-left: 6px; }
+
+  /* --- detail edit / delete --- */
+  .detail-actions { display: flex; gap: 8px; margin-bottom: 14px; }
+  .btn-edit, .btn-del {
+    padding: 7px 16px;
+    font-size: 12px;
+    border: none;
+    border-radius: 18px;
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .btn-edit {
+    background: linear-gradient(145deg, var(--accent-light), var(--accent));
+    color: #F7F2E8;
+    box-shadow: 3px 3px 8px var(--shadow-dark-subtle), -3px -3px 8px var(--shadow-light);
+  }
+  .btn-del {
+    background: linear-gradient(145deg, #FAF6ED, #EDE4D3);
+    color: var(--negative);
+    box-shadow: 3px 3px 8px var(--shadow-dark-subtle), -3px -3px 8px var(--shadow-light);
+  }
+  .btn-edit:hover, .btn-del:hover { transform: translateY(-1px); }
+  .btn-edit:active, .btn-del:active {
+    transform: translateY(0);
+    box-shadow: inset 2px 2px 5px var(--shadow-dark-subtle), inset -2px -2px 5px var(--shadow-light);
+  }
+
+  .edit-form { display: flex; flex-direction: column; gap: 14px; margin-bottom: 16px; }
+  .edit-field { display: flex; flex-direction: column; gap: 5px; }
+  .edit-field label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-light);
+  }
+  .edit-field input, .edit-field select, .edit-field textarea {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 10px 14px;
+    border-radius: 12px;
+    font-family: inherit;
+    font-size: 13px;
+    transition: all 0.25s ease;
+    box-shadow: inset 2px 2px 4px var(--shadow-dark-subtle), inset -2px -2px 4px var(--shadow-light);
+  }
+  .edit-field textarea { resize: vertical; line-height: 1.7; min-height: 160px; }
+  .edit-field input:focus, .edit-field select:focus, .edit-field textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-glow), inset 2px 2px 4px var(--shadow-dark-subtle);
+  }
+  .edit-error {
+    color: var(--negative);
+    font-size: 13px;
+    margin-bottom: 12px;
+    padding: 10px 14px;
+    background: rgba(139, 74, 74, 0.08);
+    border: 1px solid rgba(139, 74, 74, 0.25);
+    border-radius: 10px;
+  }
+  .edit-actions { display: flex; gap: 12px; }
 </style>
 </head>
 <body>
@@ -657,7 +725,7 @@
 
 <div class="content" id="network-view" style="display:none">
   <div class="network-legend">
-    <div class="legend-item"><span class="legend-dot" style="background:#2F4F4F"></span> dynamic</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#E86F4D"></span> dynamic</div>
     <div class="legend-item"><span class="legend-dot" style="background:#9A7B4F"></span> permanent</div>
     <div class="legend-item"><span class="legend-dot" style="background:#8B6A6A"></span> feel</div>
     <div class="legend-item"><span class="legend-dot" style="background:#B0A590"></span> archived</div>
@@ -1141,14 +1209,15 @@ function renderBuckets(buckets) {
   }
   list.innerHTML = buckets.map(function(b) {
     var icon = b.pinned ? '📌' : b.type === 'feel' ? '🫧' : b.digested ? '🌿' : b.resolved ? '💤' : '💭';
-    var vPos = Math.round(b.valence * 100);
+    var vVal = b.valence != null ? b.valence : 0.5;
+    var vPos = Math.round(vVal * 100);
     var modelV = b.model_valence != null ? ' → V' + b.model_valence.toFixed(1) : '';
     var timeAgo = formatTimeAgo(b.last_active || b.created);
     return '<div class="bucket-row" onclick="showDetail(\'' + b.id + '\')">' +
       '<span class="icon">' + icon + '</span>' +
       '<span class="name" title="' + esc(b.name) + '">' + esc(b.name) + '</span>' +
       '<span class="domain">' + (b.domain || []).join(', ') + '</span>' +
-      '<span class="emotion"><span class="v-bar"><span class="v-dot" style="left:' + vPos + '%"></span></span>' + modelV + '</span>' +
+      '<span class="emotion"><span class="v-bar"><span class="v-dot" style="left:' + vPos + '%"></span></span><span class="v-label">' + valenceLabel(vVal) + '</span>' + modelV + '</span>' +
       '<span class="score">' + b.score.toFixed(2) + '</span>' +
       '<span class="time">' + timeAgo + '</span>' +
       '<span class="preview">' + esc(b.content_preview) + '</span>' +
@@ -1166,6 +1235,21 @@ async function searchBuckets(query) {
   }
 }
 
+// valence 显示：0~0.4 负面 / 0.4~0.6 中性 / 0.6+ 正面
+function valenceLabel(v) {
+  if (v == null) v = 0.5;
+  if (v < 0.4) return '负面';
+  if (v < 0.6) return '中性';
+  return '正面';
+}
+
+// escape for use inside a double-quoted HTML attribute
+function escAttr(s) {
+  return esc(s).replace(/"/g, '&quot;');
+}
+
+var currentDetail = null;  // 当前打开的桶 {id, metadata, content, score}
+
 async function showDetail(id) {
   var panel = document.getElementById('detail-panel');
   var content = document.getElementById('detail-content');
@@ -1175,29 +1259,158 @@ async function showDetail(id) {
   try {
     var res = await fetch(BASE + '/api/bucket/' + id);
     var b = await res.json();
-    var meta = b.metadata || {};
-    content.innerHTML =
-      '<h2>' + esc(meta.name || id) + '</h2>' +
-      '<div class="detail-meta">' +
-        '<div class="field"><label>ID</label>' + id + '</div>' +
-        '<div class="field"><label>类型</label>' + (meta.type || 'dynamic') + '</div>' +
-        '<div class="field"><label>域</label>' + (meta.domain || []).join(', ') + '</div>' +
-        '<div class="field"><label>标签</label>' + (meta.tags || []).join(', ') + '</div>' +
-        '<div class="field"><label>事件效价</label>V' + (meta.valence || 0.5).toFixed(2) + '</div>' +
-        '<div class="field"><label>唤醒度</label>A' + (meta.arousal || 0.3).toFixed(2) + '</div>' +
-        '<div class="field"><label>模型视角</label>' + (meta.model_valence != null ? 'V' + meta.model_valence.toFixed(2) : '—') + '</div>' +
-        '<div class="field"><label>重要度</label>' + (meta.importance || 5) + '/10</div>' +
-        '<div class="field"><label>权重分</label>' + b.score.toFixed(4) + '</div>' +
-        '<div class="field"><label>激活次数</label>' + (meta.activation_count || 1) + '</div>' +
-        '<div class="field"><label>已解决</label>' + (meta.resolved ? '✓' : '—') + '</div>' +
-        '<div class="field"><label>已消化</label>' + (meta.digested ? '✓' : '—') + '</div>' +
-        '<div class="field"><label>钉选</label>' + (meta.pinned ? '✓' : '—') + '</div>' +
-        '<div class="field"><label>创建</label>' + (meta.created || '—') + '</div>' +
-        '<div class="field"><label>最后活跃</label>' + (meta.last_active || '—') + '</div>' +
-      '</div>' +
-      '<div class="detail-content">' + esc(b.content) + '</div>';
+    if (!res.ok) throw new Error((b && b.error) ? b.error : ('HTTP ' + res.status));
+    if (!b.id) b.id = id;
+    currentDetail = b;
+    renderDetailView();
   } catch (e) {
+    currentDetail = null;
     content.innerHTML = '<div class="loading">加载失败: ' + e.message + '</div>';
+  }
+}
+
+function renderDetailView() {
+  var b = currentDetail;
+  if (!b) return;
+  var meta = b.metadata || {};
+  var id = b.id;
+  var v = meta.valence != null ? meta.valence : 0.5;
+  var content = document.getElementById('detail-content');
+  content.innerHTML =
+    '<div class="detail-actions">' +
+      '<button class="btn-edit" onclick="enterEditMode()">✎ 编辑</button>' +
+      '<button class="btn-del" onclick="deleteBucketFromDetail()">🗑 删除</button>' +
+    '</div>' +
+    '<h2>' + esc(meta.name || id) + '</h2>' +
+    '<div class="detail-meta">' +
+      '<div class="field"><label>ID</label>' + esc(id) + '</div>' +
+      '<div class="field"><label>类型</label>' + esc(meta.type || 'dynamic') + '</div>' +
+      '<div class="field"><label>域</label>' + esc((meta.domain || []).join(', ')) + '</div>' +
+      '<div class="field"><label>标签</label>' + esc((meta.tags || []).join(', ')) + '</div>' +
+      '<div class="field"><label>事件效价</label>V' + v.toFixed(2) + ' · ' + valenceLabel(v) + '</div>' +
+      '<div class="field"><label>唤醒度</label>A' + (meta.arousal != null ? meta.arousal : 0.3).toFixed(2) + '</div>' +
+      '<div class="field"><label>模型视角</label>' + (meta.model_valence != null ? 'V' + meta.model_valence.toFixed(2) : '—') + '</div>' +
+      '<div class="field"><label>重要度</label>' + (meta.importance != null ? meta.importance : 5) + '/10</div>' +
+      '<div class="field"><label>权重分</label>' + (b.score != null ? b.score.toFixed(4) : '—') + '</div>' +
+      '<div class="field"><label>激活次数</label>' + (meta.activation_count || 1) + '</div>' +
+      '<div class="field"><label>已解决</label>' + (meta.resolved ? '✓' : '—') + '</div>' +
+      '<div class="field"><label>已消化</label>' + (meta.digested ? '✓' : '—') + '</div>' +
+      '<div class="field"><label>钉选</label>' + (meta.pinned ? '✓' : '—') + '</div>' +
+      '<div class="field"><label>创建</label>' + esc(meta.created || '—') + '</div>' +
+      '<div class="field"><label>最后活跃</label>' + esc(meta.last_active || '—') + '</div>' +
+    '</div>' +
+    '<div class="detail-content">' + esc(b.content) + '</div>';
+}
+
+function enterEditMode() {
+  var b = currentDetail;
+  if (!b) return;
+  var meta = b.metadata || {};
+  var content = document.getElementById('detail-content');
+  content.innerHTML =
+    '<h2 style="padding-right:0;">编辑记忆桶</h2>' +
+    '<div class="edit-form">' +
+      '<div class="edit-field"><label>名称 Name</label>' +
+        '<input type="text" id="edit-name" value="' + escAttr(meta.name || '') + '"></div>' +
+      '<div class="edit-field"><label>重要度 Importance（1-10 整数）</label>' +
+        '<input type="number" id="edit-importance" min="1" max="10" step="1" value="' + (meta.importance != null ? meta.importance : 5) + '"></div>' +
+      '<div class="edit-field"><label>钉选 Pinned</label>' +
+        '<select id="edit-pinned">' +
+          '<option value="true"' + (meta.pinned ? ' selected' : '') + '>是</option>' +
+          '<option value="false"' + (!meta.pinned ? ' selected' : '') + '>否</option>' +
+        '</select></div>' +
+      '<div class="edit-field"><label>标签 Tags（逗号分隔）</label>' +
+        '<input type="text" id="edit-tags" value="' + escAttr((meta.tags || []).join(', ')) + '"></div>' +
+      '<div class="edit-field"><label>内容 Content</label>' +
+        '<textarea id="edit-content" rows="10">' + esc(b.content || '') + '</textarea></div>' +
+    '</div>' +
+    '<div id="edit-error" class="edit-error" style="display:none;"></div>' +
+    '<div class="edit-actions">' +
+      '<button class="btn-primary" onclick="saveEdit()">保存</button>' +
+      '<button class="btn-secondary" onclick="cancelEdit()">取消</button>' +
+    '</div>';
+}
+
+function cancelEdit() {
+  renderDetailView();  // 恢复原样
+}
+
+function showEditError(msg) {
+  var el = document.getElementById('edit-error');
+  if (!el) return;
+  el.textContent = msg;
+  el.style.display = '';
+}
+
+async function saveEdit() {
+  var b = currentDetail;
+  if (!b) return;
+  var nameVal = document.getElementById('edit-name').value.trim();
+  var impRaw = document.getElementById('edit-importance').value.trim();
+  var pinnedVal = document.getElementById('edit-pinned').value === 'true';
+  var tagsRaw = document.getElementById('edit-tags').value;
+  var contentVal = document.getElementById('edit-content').value;
+
+  // 校验：importance 必须是 1-10 的整数
+  if (!/^-?\d+$/.test(impRaw)) {
+    return showEditError('重要度必须是 1-10 的整数');
+  }
+  var imp = parseInt(impRaw, 10);
+  if (imp < 1 || imp > 10) {
+    return showEditError('重要度必须是 1-10 的整数');
+  }
+  // 校验：content 不能为空
+  if (!contentVal.trim()) {
+    return showEditError('内容不能为空');
+  }
+  // tags：全角逗号自动转半角，再拆分
+  var tags = tagsRaw.replace(/，/g, ',').split(',').map(function(t) { return t.trim(); }).filter(Boolean);
+
+  var body = {
+    name: nameVal,
+    importance: imp,
+    pinned: pinnedVal,
+    tags: tags,
+    content: contentVal.trim(),
+  };
+
+  var resp = await authFetch(BASE + '/api/buckets/' + b.id, {
+    method: 'PUT',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(body),
+  });
+  if (!resp) return;  // 401 已由 authFetch 处理
+  var d = {};
+  try { d = await resp.json(); } catch (e) {}
+  if (!resp.ok) {
+    return showEditError(d.error || ('保存失败 (HTTP ' + resp.status + ')'));
+  }
+
+  // 更新本地数据并切回展示态
+  b.metadata = b.metadata || {};
+  b.metadata.name = nameVal;
+  b.metadata.importance = imp;
+  b.metadata.pinned = pinnedVal;
+  b.metadata.tags = tags;
+  b.content = contentVal.trim();
+  renderDetailView();
+  loadBuckets();  // 刷新列表
+}
+
+async function deleteBucketFromDetail() {
+  var b = currentDetail;
+  if (!b) return;
+  if (!confirm('确定删除记忆桶「' + (b.metadata && b.metadata.name ? b.metadata.name : b.id) + '」？此操作不可撤销。')) return;
+  var resp = await authFetch(BASE + '/api/buckets/' + b.id, { method: 'DELETE' });
+  if (!resp) return;
+  if (resp.ok) {
+    closeDetail();
+    currentDetail = null;
+    loadBuckets();  // 刷新列表
+  } else {
+    var d = {};
+    try { d = await resp.json(); } catch (e) {}
+    alert('删除失败: ' + (d.error || ('HTTP ' + resp.status)));
   }
 }
 
@@ -1297,16 +1510,16 @@ function drawNetwork(ctx, W, H, data) {
     ctx.beginPath();
     ctx.moveTo(a.x, a.y);
     ctx.lineTo(b.x, b.y);
-    ctx.strokeStyle = 'rgba(47, 79, 79, ' + (e.similarity * 0.35) + ')';
+    ctx.strokeStyle = 'rgba(232, 111, 77, ' + (e.similarity * 0.35) + ')';
     ctx.lineWidth = Math.max(0.5, e.similarity * 2);
     ctx.stroke();
   });
 
-  var colors = { dynamic: '#2F4F4F', permanent: '#9A7B4F', feel: '#8B6A6A', archived: '#B0A590' };
+  var colors = { dynamic: '#E86F4D', permanent: '#9A7B4F', feel: '#8B6A6A', archived: '#B0A590' };
   nodes.forEach(function(n) {
     var p = positions[n.id];
     var r = Math.max(4, Math.min(14, n.score * 0.8));
-    var color = colors[n.type] || '#2F4F4F';
+    var color = colors[n.type] || '#E86F4D';
 
     ctx.beginPath();
     ctx.arc(p.x, p.y, r + 4, 0, Math.PI * 2);
@@ -1401,10 +1614,10 @@ async function runBreathDebug() {
     }
 
     var barColors = {
-      topic: '#2F4F4F',
+      topic: '#E86F4D',
       emotion: '#8B6A6A',
       time: '#9A7B4F',
-      importance: '#4A7C59',
+      importance: '#C75A3C',
     };
 
     results.innerHTML = data.results.map(function(r, i) {
